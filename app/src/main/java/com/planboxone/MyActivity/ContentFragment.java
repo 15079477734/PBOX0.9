@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,18 +38,14 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * Created by Administrator on 2014/7/24 0024.
- */
 public class ContentFragment extends Fragment {
     private final static String TAG = "ContentFragment";
     private DatabaseManage databaseManage;
     private ListView listView;
     private ArrayList<String> ids;
-    private int newsType = 0;
-    public List<Map<String, String>> planData;
+    private List<Map<String, String>> planData;
     private String dbName;
-    private DaysRange daysRange;
+    private int newsType = 0;
 
     public ContentFragment() {
         super();
@@ -80,6 +75,7 @@ public class ContentFragment extends Fragment {
         //数据库处理
 
         databaseManage = new DatabaseManage(getActivity(), dbName);
+
     }
 
     @Override
@@ -161,8 +157,18 @@ public class ContentFragment extends Fragment {
     }
 
     public void refresh() {
+        sortData();
+        BaseAdapter mAdapter = new MyAdapter(getActivity(), getItems(), planData);
+        AnimationAdapter animAdapter = new ScaleInAnimationAdapter(mAdapter);
+        animAdapter.setAbsListView(listView);
+        listView.setAdapter(animAdapter);
+    }
+
+    public void sortData() {
         List<Map<String, String>> data2 = databaseManage.listData();
-        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        planData = new ArrayList<Map<String, String>>();
+
+
         for (Map<String, String> m : data2) {
             String str = m.get("progress");
             if (m.get("top").equals("1"))
@@ -180,19 +186,18 @@ public class ContentFragment extends Fragment {
                 else
                     m.put("type", "1");
             }
-            data.add(m);
+            planData.add(m);
         }
-        Collections.sort(data, new MapComparator());
+
+
+        Collections.sort(planData, new MapComparator());
+
+
         ids = new ArrayList<String>();
-        for (Map<String, String> m : data) {
+        for (Map<String, String> m : planData) {
             ids.add(m.get("_id"));
         }
 
-        //    Log.e(TAG, data2.toString());
-        BaseAdapter mAdapter = new MyAdapter(getActivity(), getItems(), data);
-        AnimationAdapter animAdapter = new ScaleInAnimationAdapter(mAdapter);
-        animAdapter.setAbsListView(listView);
-        listView.setAdapter(animAdapter);
     }
 
     public ArrayList<Integer> getItems() {

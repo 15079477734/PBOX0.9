@@ -59,7 +59,6 @@ public class WritePlanActivity extends BaseActivity {
     }
 
 
-
     public class MyViewHolder {
         private Context mContext;
         private DatabaseManage databaseManage;
@@ -162,21 +161,17 @@ public class WritePlanActivity extends BaseActivity {
             datavalues.put("top", mTop);
             if (mTop.equals("1"))
                 viewWriteHolder.top_checkBox.setChecked(true);
-
+            else
+                viewWriteHolder.top_checkBox.setChecked(false);
             viewWriteHolder.time_textview.setText(mTime);
             viewWriteHolder.category_textview.setText(mCategory);
             viewWriteHolder.date_textview.setText(mDate);
             viewWriteHolder.title_edittext.setText(mTitle);
-
-            viewWriteHolder.date_layout.setOnClickListener(new View.OnClickListener()
-
-                                                           {
+            viewWriteHolder.date_layout.setOnClickListener(new View.OnClickListener() {
                                                                @Override
                                                                public void onClick(View view) {
-
                                                                    String tag = "";
                                                                    datePickerDialog.show(WritePlanActivity.this.getFragmentManager(), tag);
-
                                                                }
                                                            }
             );
@@ -193,12 +188,9 @@ public class WritePlanActivity extends BaseActivity {
                                                                     alertDialog.show();
                                                                     radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                                                                         public void onCheckedChanged(RadioGroup arg0, int arg1) {
-                                                                            // TODO Auto-generated method stub
-                                                                            //获取变更后的选中项的ID
+
                                                                             int radioButtonId = arg0.getCheckedRadioButtonId();
-                                                                            //根据ID获取RadioButton的实例
                                                                             RadioButton rb = (RadioButton) view1.findViewById(radioButtonId);
-                                                                            //更新文本内容，以符合选中项
                                                                             String str = rb.getText().toString();
                                                                             viewWriteHolder.category_textview.setText(str);
                                                                             datavalues.put("category", str);
@@ -233,9 +225,7 @@ public class WritePlanActivity extends BaseActivity {
                                                                    radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                                                                        public void onCheckedChanged(RadioGroup arg0, int arg1) {
                                                                            // TODO Auto-generated method stub
-                                                                           //获取变更后的选中项的ID
                                                                            int radioButtonId = arg0.getCheckedRadioButtonId();
-                                                                           //根据ID获取RadioButton的实例
                                                                            RadioButton rb = (RadioButton) view1.findViewById(radioButtonId);
                                                                            String str = rb.getText().toString();
                                                                            String dbName = "AP";
@@ -247,7 +237,6 @@ public class WritePlanActivity extends BaseActivity {
                                                                                dbName = "CP";
 
                                                                            databaseManage = new DatabaseManage(mContext, dbName);
-                                                                           //更新文本内容，以符合选中项
                                                                            viewWriteHolder.time_textview.setText(str);
                                                                            datavalues.put("time", str);
                                                                            alertDialog.dismiss();
@@ -267,12 +256,11 @@ public class WritePlanActivity extends BaseActivity {
                                                                       String title = viewWriteHolder.title_edittext.getText().toString();
                                                                       if (viewWriteHolder.top_checkBox.isChecked()) {
                                                                           datavalues.put("top", "1");
-                                                                      }
+                                                                      } else
+                                                                          datavalues.put("top", "0");
                                                                       if (title.equals("")) {
                                                                           Toast.makeText(mContext, "标题不能为空", Toast.LENGTH_SHORT).show();
                                                                       } else {
-
-
                                                                           datavalues.put("title", title);
                                                                           datavalues.put("note", viewWriteHolder.note_edittext.getText().toString());
                                                                           if (eoc.equals("0")) {
