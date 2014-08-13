@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.library.util.DatabaseManage;
-import com.library.util.Daysrange;
+import com.library.util.DaysRange;
 import com.library.util.GetDate;
 import com.library.util.MemoryCache;
 
@@ -45,14 +45,12 @@ import java.util.Map;
 public class ContentFragment extends Fragment {
     private final static String TAG = "ContentFragment";
     private DatabaseManage databaseManage;
-    private ListView listViewReady;
+    private ListView listView;
     private ArrayList<String> ids;
     private int newsType = 0;
-    public List<Map<String, String>> data;
-    public List<Map<String, String>> data2;
+    public List<Map<String, String>> planData;
     private String dbName;
-    private BaseAdapter mAdapter;
-    private Daysrange daysrange;
+    private DaysRange daysRange;
 
     public ContentFragment() {
         super();
@@ -66,6 +64,9 @@ public class ContentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //A计划与B计划的的判定
+
         dbName = "AP";
         switch (newsType) {
             case 0:
@@ -76,92 +77,105 @@ public class ContentFragment extends Fragment {
                 break;
         }
         Log.e(TAG, dbName);
+
+        //数据库处理
+
         databaseManage = new DatabaseManage(getActivity(), dbName);
-        daysrange = new Daysrange();
+
+        //天数计算
+        daysRange = new DaysRange();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View view = layoutInflater.inflate(R.layout.activity_my_list, null);
-        listViewReady = (ListView) view.findViewById(android.R.id.list);
-        listViewReady.setDivider(null);
-        refresh();
+        listView = (ListView) view.findViewById(android.R.id.list);
+        listView.setDivider(null);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
+                final View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_tip, null);
+                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.dialog).setView(view1).create();
+                alertDialog.setCanceledOnTouchOutside(true);
 
-        listViewReady.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                 @Override
-                                                 public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
-                            final View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_tip, null);
-                                                     final AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.dialog).setView(view1).create();
-                                                     alertDialog.setCanceledOnTouchOutside(true);
-                                                     ((Button) view1.findViewById(R.id.btn_delete)).setOnClickListener(new Button.OnClickListener() {
-                                                                                                                           @Override
-                                                                                                                           public void onClick(View view) {
-                                                                                                                               if (databaseManage.deleteData("_id = ?", new String[]{ids.get(position)})) {
-                                                                                                                                   Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
-                                                                                                                                   refresh();
-                                                                                                                                   alertDialog.dismiss();
-                                                                                                                               }
-                                                                                                                           }
-                                                                                                                       }
-                                                     );
-                                                     ((Button) view1.findViewById(R.id.btn_edit)).setOnClickListener(new View.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(View view) {
-                                                             Map<String, String> str = databaseManage.findData("_id = ?", new String[]{ids.get(position)});
-                                                             alertDialog.dismiss();
-                                                             Intent intent = new Intent();
-                                                             intent.putExtra("_id", str.get("_id"));
-                                                             intent.putExtra("dbName", dbName);
-                                                             intent.setClass(getActivity(), WritePlanActivity.class);
-                                                             getActivity().startActivity(intent);
-                                                             getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.zoin);
-                                                         }
-                                                     });
-                                                     ((Button) view1.findViewById(R.id.btn_add)).setOnClickListener(new View.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(View view) {
-                                                             ContentValues values = new ContentValues();
-                                                             int progress = Integer.valueOf(databaseManage.findData("_id = ?", new String[]{ids.get(position)}).get("progress"));
-                                                             progress += 25;
-                                                             if (progress > 100)
-                                                                 progress = 0;
-                                                             values.put("progress", progress);
-                                                             databaseManage.updateData(values, "_id = ?", new String[]{ids.get(position)});
-                                                         }
-                                                     });
-                                                     ((Button) view1.findViewById(R.id.btn_progress)).setOnClickListener(new View.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(View view) {
-                                                             alertDialog.dismiss();
-                                                             refreshDB();
-                                                             refresh();
-                                                         }
-                                                     });
-                                                     alertDialog.show();
-                                                 }
-                                             }
-        );
+
+                ((Button) view1.findViewById(R.id.btn_delete)).setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deletePlan(position);
+                        alertDialog.dismiss();
+                    }
+                });
+                ((Button) view1.findViewById(R.id.btn_edit)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                        editPlan(position);
+                    }
+                });
+                ((Button) view1.findViewById(R.id.btn_add)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        addPlanProgress(position);
+
+                    }
+                });
+                ((Button) view1.findViewById(R.id.btn_progress)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                        refresh();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
         return view;
-
     }
+
     @Override
     public void onResume() {
-        super.onResume();
         refresh();
+        super.onResume();
+    }
+
+    public void deletePlan(int position) {
+        if (databaseManage.deleteData("_id = ?", new String[]{ids.get(position)})) {
+            Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
+            refresh();
+        }
+    }
+
+    public void editPlan(int position) {
+        Map<String, String> str = databaseManage.findData("_id = ?", new String[]{ids.get(position)});
+        Intent intent = new Intent();
+        intent.putExtra("_id", str.get("_id"));
+        intent.putExtra("dbName", dbName);
+        intent.setClass(getActivity(), WritePlanActivity.class);
+        getActivity().startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.zoin);
+    }
+
+    public void addPlanProgress(int position) {
+        ContentValues values = new ContentValues();
+        int progress = Integer.valueOf(databaseManage.findData("_id = ?", new String[]{ids.get(position)}).get("progress")) + 25;
+        if (progress > 100) progress = 0;
+        values.put("progress", progress);
+        databaseManage.updateData(values, "_id = ?", new String[]{ids.get(position)});
     }
 
     public void refresh() {
-        data = databaseManage.listData();
-        List<Map<String, String>> data2 = new ArrayList<Map<String, String>>();
-        for (Map<String, String> m : data) {
+        List<Map<String, String>> data2 = databaseManage.listData();
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        for (Map<String, String> m : data2) {
             String str = m.get("progress");
             if (m.get("top").equals("1"))
                 m.put("type", "6");
             else if (str.equals("100"))
                 m.put("type", "5");
             else {
-                int a = daysrange.calculate(m.get("date"));
+                int a = daysRange.calculate(m.get("date"));
                 if (a > 20)
                     m.put("type", "4");
                 else if (a > 10)
@@ -171,71 +185,25 @@ public class ContentFragment extends Fragment {
                 else
                     m.put("type", "1");
             }
-            data2.add(m);
+            data.add(m);
         }
-        Collections.sort(data2, new MapComparator());
+        Collections.sort(data, new MapComparator());
         ids = new ArrayList<String>();
-        for (Map<String, String> m : data2) {
+        for (Map<String, String> m : data) {
             ids.add(m.get("_id"));
         }
 
         //    Log.e(TAG, data2.toString());
-        mAdapter = new MyAdapter(getActivity(), getItems(), data2);
+        BaseAdapter mAdapter = new MyAdapter(getActivity(), getItems(), data);
         AnimationAdapter animAdapter = new ScaleInAnimationAdapter(mAdapter);
-        animAdapter.setAbsListView(listViewReady);
-        listViewReady.setAdapter(animAdapter);
+        animAdapter.setAbsListView(listView);
+        listView.setAdapter(animAdapter);
     }
 
-    public void refreshDB() {
-
-
-    }
-
-    static class MapComparatorTwo implements Comparator<Map<String, String>> {
-
-        @Override
-        public int compare(Map<String, String> o1, Map<String, String> o2) {
-            Daysrange daysrange = new Daysrange();
-            int a = daysrange.calculate(o1.get("date"));
-//            Log.e(TAG, "A =  " + String.valueOf(a));
-
-            Daysrange daysrange2 = new Daysrange();
-            int b = daysrange2.calculate(o2.get("date"));
-//            Log.e(TAG, "B =  " + String.valueOf(b));
-
-
-            int c = String.valueOf(a).compareTo(String.valueOf(b));
-//            Log.e(TAG, "C =  " + String.valueOf(c));
-            return c;
-
-            //   return o1.get("date").compareTo(o1.get("date"));
-           /*
-           CompareTo详解
-             如果前面大于后面  例A=3 B=2 A>B A.compareTo（B）      return 1；
-             即 A-B=1
-             按从小到大排序
-           */
-           /* if(a<b)
-            {
-                return 1;
-            }*/
-        }
-    }
-
-    static class MapComparator implements Comparator<Map<String, String>> {
-
-        @Override
-        public int compare(Map<String, String> o1, Map<String, String> o2) {
-            // TODO Auto-generated method stub
-            String b1 = o1.get("type");
-            String b2 = o2.get("type");
-            return b1.compareTo(b2);
-        }
-    }
 
     public ArrayList<Integer> getItems() {
         ArrayList<Integer> items = new ArrayList<Integer>();
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < planData.size(); i++) {
             items.add(i);
         }
         return items;
@@ -245,11 +213,6 @@ public class ContentFragment extends Fragment {
         private final Context mContext;
         private List<Map<String, String>> mData;
 
-        public MyAdapter(Context context, ArrayList<Integer> items) {
-            super(items);
-            mContext = context;
-            mData = data;
-        }
 
         public MyAdapter(Context context, ArrayList<Integer> items, List<Map<String, String>> list) {
             super(items);
@@ -319,7 +282,7 @@ public class ContentFragment extends Fragment {
             holder.head.setImageBitmap(bitmap);
 
 
-            Daysrange daysrange = new Daysrange(GetDate.getDatetimeString());
+            DaysRange daysrange = new DaysRange();
             int a = daysrange.calculate(mData.get(position).get("date"));
             holder.time.setText(String.valueOf(Math.abs(a)) + "天");
             if (a < 0) {
@@ -339,9 +302,17 @@ public class ContentFragment extends Fragment {
         public LinearLayout background;
         public TextView title;
         public TextView time;
-        public TextView categatory;
         public ImageView head;
         public CheckBox top;
         public TextView due;
+    }
+
+    final class MapComparator implements Comparator<Map<String, String>> {
+        @Override
+        public int compare(Map<String, String> o1, Map<String, String> o2) {
+            String b1 = o1.get("type");
+            String b2 = o2.get("type");
+            return b1.compareTo(b2);
+        }
     }
 }
