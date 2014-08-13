@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="J:\SVN\appid246e7qu777\刘平\PBOXS\libs\library\res" />
+        <source path="J:\SVN\appid246e7qu777\刘平\PBOXS\libs\library\build\generated\res\rs\release" />
+        <source path="J:\SVN\appid246e7qu777\刘平\PBOXS\libs\library\build\generated\res\generated\release" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="J:\SVN\appid246e7qu777\刘平\PBOXS\libs\library\src\release\res" />
+    </dataSet>
+
+</merger>
