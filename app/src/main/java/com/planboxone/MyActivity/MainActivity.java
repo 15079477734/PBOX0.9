@@ -111,7 +111,7 @@ public class MainActivity extends FragmentActivity {
             overridePendingTransition(R.anim.slide_in_right, R.anim.zoin);
             return true;
         }
-        if (id == R.id.action_settings
+        if (id == R.id.actionbar_more
                 ) {
             this.startActivity(new Intent(this,SettingActivity.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.zoin);

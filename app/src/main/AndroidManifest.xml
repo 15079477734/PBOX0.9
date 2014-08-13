@@ -11,13 +11,7 @@
         <activity
             android:name=".MyActivity.MainActivity"
             android:label="微计划"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".MyActivity.WritePlanActivity"
             android:label="写计划"
@@ -30,14 +24,24 @@
             android:name=".MyActivity.SplashActivity"
             android:theme="@android:style/Theme.Holo.NoActionBar">
             android:label="@null">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MyActivity.GuideActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar">
-
-        </activity>
-
+            android:theme="@android:style/Theme.Holo.NoActionBar"></activity>
+        <activity android:name=".Test.ModifyPassActivity"></activity>
+        <activity android:name=".Test.OpenPsdActivity" />
+        <activity android:name=".Test.ClosePsdActivity" />
+        <activity android:name=".Test.SetPsdActivity" />
+        <activity
+            android:name=".MyActivity.AboutUsActivity"
+            android:label="@string/title_activity_about_us"></activity>
     </application>
+
     <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

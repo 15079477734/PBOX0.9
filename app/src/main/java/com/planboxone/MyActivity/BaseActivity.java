@@ -36,8 +36,6 @@ public class BaseActivity extends FragmentActivity {
             overridePendingTransition(R.anim.zoin, R.anim.slide_out_right);
             return true;
         }
-        if (item.getItemId() == R.id.action_send) {
-        }
         return super.onOptionsItemSelected(item);
     }
 

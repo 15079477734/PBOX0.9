@@ -401,7 +401,7 @@
                 android:background="#20000000" />
 
             <LinearLayout
-                android:id="@+id/lv_us"
+                android:id="@+id/lv_about_us"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center_vertical"

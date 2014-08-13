@@ -25,5 +25,6 @@
     <string name="day_of_week_label_typeface">sans-serif</string>
     <string name="title_activity_my_test">MyTest</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_about_us">AboutUsActivity</string>
 
 </resources>

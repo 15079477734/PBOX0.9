@@ -18,11 +18,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.planboxone.R;
 
 public class GuideActivity extends Activity {
+
     private static final String SHAREDPREFERENCES_NAME = "my_pref";
     private static final String KEY_GUIDE_ACTIVITY = "guide_activity";
     private ViewPager mviewPager;
