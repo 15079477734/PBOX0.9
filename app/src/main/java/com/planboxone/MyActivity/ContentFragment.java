@@ -58,7 +58,6 @@ public class ContentFragment extends Fragment {
 
     public ContentFragment(int newsType) {
         this.newsType = newsType;
-
     }
 
     @Override
@@ -81,9 +80,6 @@ public class ContentFragment extends Fragment {
         //数据库处理
 
         databaseManage = new DatabaseManage(getActivity(), dbName);
-
-        //天数计算
-        daysRange = new DaysRange();
     }
 
     @Override
@@ -149,10 +145,9 @@ public class ContentFragment extends Fragment {
 
     public void editPlan(int position) {
         Map<String, String> str = databaseManage.findData("_id = ?", new String[]{ids.get(position)});
-        Intent intent = new Intent();
+        Intent intent = new Intent(getActivity(), WritePlanActivity.class);
         intent.putExtra("_id", str.get("_id"));
         intent.putExtra("dbName", dbName);
-        intent.setClass(getActivity(), WritePlanActivity.class);
         getActivity().startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.zoin);
     }
@@ -175,7 +170,7 @@ public class ContentFragment extends Fragment {
             else if (str.equals("100"))
                 m.put("type", "5");
             else {
-                int a = daysRange.calculate(m.get("date"));
+                int a = DaysRange.calculate(m.get("date"));
                 if (a > 20)
                     m.put("type", "4");
                 else if (a > 10)
@@ -200,7 +195,6 @@ public class ContentFragment extends Fragment {
         listView.setAdapter(animAdapter);
     }
 
-
     public ArrayList<Integer> getItems() {
         ArrayList<Integer> items = new ArrayList<Integer>();
         for (int i = 0; i < planData.size(); i++) {
@@ -209,7 +203,7 @@ public class ContentFragment extends Fragment {
         return items;
     }
 
-    private class MyAdapter extends ArrayAdapter<Integer> {
+    final class MyAdapter extends ArrayAdapter<Integer> {
         private final Context mContext;
         private List<Map<String, String>> mData;
 
@@ -246,6 +240,19 @@ public class ContentFragment extends Fragment {
             } else {
                 holder = (ViewHolder) contentView.getTag();
             }
+            String dueTime = mData.get(position).get("date");
+            String title = mData.get(position).get("title");
+            int day = DaysRange.calculate(dueTime);
+
+            holder.progress.setText(mData.get(position).get("progress") + "%");
+            holder.due.setText(dueTime);
+            if (day < 0) {
+                holder.title.setText(title + "已经");
+            } else {
+                holder.title.setText(title + "还剩");
+            }
+            holder.time.setText(String.valueOf(Math.abs(day)) + "天");
+
             int imageResId;
             int t = Integer.valueOf(mData.get(position).get("type"));
             switch (t) {
@@ -270,9 +277,8 @@ public class ContentFragment extends Fragment {
                     holder.background.setBackgroundResource(R.drawable.listitem_white);
                     break;
             }
-
-
             holder.background.setPadding(6, 8, 8, 8);
+
             MemoryCache memoryCache = new MemoryCache();
             Bitmap bitmap = memoryCache.getBitmapFromMemCache(imageResId);
             if (bitmap == null) {
@@ -280,19 +286,6 @@ public class ContentFragment extends Fragment {
                 memoryCache.addBitmapToMemoryCache(imageResId, bitmap);
             }
             holder.head.setImageBitmap(bitmap);
-
-
-            DaysRange daysrange = new DaysRange();
-            int a = daysrange.calculate(mData.get(position).get("date"));
-            holder.time.setText(String.valueOf(Math.abs(a)) + "天");
-            if (a < 0) {
-                holder.title.setText(mData.get(position).get("title") + "已经");
-            } else {
-                holder.title.setText(mData.get(position).get("title") + "还剩");
-            }
-            holder.progress.setText(mData.get(position).get("progress") + "%");
-            holder.due.setText(mData.get(position).get("date"));
-
             return contentView;
         }
     }
@@ -303,7 +296,6 @@ public class ContentFragment extends Fragment {
         public TextView title;
         public TextView time;
         public ImageView head;
-        public CheckBox top;
         public TextView due;
     }
 

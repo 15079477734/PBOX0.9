@@ -343,7 +343,7 @@
                 android:background="#20000000" />
 
             <LinearLayout
-                android:id="@+id/lv_aboutus"
+                android:id="@+id/lv_share"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center_vertical"
@@ -372,7 +372,7 @@
                 android:background="#20000000" />
 
             <LinearLayout
-                android:id="@+id/lv_help"
+                android:id="@+id/lv_feedback"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center_vertical"
