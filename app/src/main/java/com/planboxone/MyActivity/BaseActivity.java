@@ -1,6 +1,5 @@
 package com.planboxone.MyActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
@@ -13,7 +12,7 @@ import com.planboxone.R;
  * **************************************************************
  * *********    User : SuLinger(462679107@qq.com) .      *********
  * *********    Date : 2014-08-12 .                      *********
- * *********    Time:  11:03 .                。。           *********
+ * *********    Time:  11:03 .                。。       *********
  * *********    Project name : PBOX.                     *********
  * *********    Copyright @ 2014, SuLinger, All Rights Reserved  *
  * **************************************************************
