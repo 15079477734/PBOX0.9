@@ -26,10 +26,9 @@
 
         <Switch
             android:id="@+id/switch_psd"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:thumb="@drawable/switch_button"
-            android:track="@drawable/toggle_btn" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
 
 
     </RelativeLayout>
