@@ -20,7 +20,6 @@ public class ModifyPassActivity extends BaseActivity {
     Button btn_savepsd_modify;
     SharedPreferences sharedPreferences;
     boolean flag;
-    int a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

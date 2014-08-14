@@ -88,32 +88,32 @@ public class ContentFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
                 final View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_tip, null);
-                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity(), R.style.dialog).setView(view1).create();
+                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).setView(view1).create();
                 alertDialog.setCanceledOnTouchOutside(true);
 
 
-                ((Button) view1.findViewById(R.id.btn_delete)).setOnClickListener(new Button.OnClickListener() {
+                (view1.findViewById(R.id.btn_delete)).setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         deletePlan(position);
                         alertDialog.dismiss();
                     }
                 });
-                ((Button) view1.findViewById(R.id.btn_edit)).setOnClickListener(new View.OnClickListener() {
+                (view1.findViewById(R.id.btn_edit)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         alertDialog.dismiss();
                         editPlan(position);
                     }
                 });
-                ((Button) view1.findViewById(R.id.btn_add)).setOnClickListener(new View.OnClickListener() {
+                (view1.findViewById(R.id.btn_add)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         addPlanProgress(position);
 
                     }
                 });
-                ((Button) view1.findViewById(R.id.btn_progress)).setOnClickListener(new View.OnClickListener() {
+                (view1.findViewById(R.id.btn_progress)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         alertDialog.dismiss();
@@ -231,7 +231,7 @@ public class ContentFragment extends Fragment {
 
         @Override
         public View getView(int position, View contentView, ViewGroup parent) {
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (contentView == null) {
                 holder = new ViewHolder();
                 contentView = LayoutInflater.from(getActivity()).inflate(R.layout.plantwo, null);
