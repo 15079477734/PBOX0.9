@@ -1,6 +1,5 @@
 package com.planboxone.Test;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.planboxone.MyActivity.BaseActivity;
-import com.planboxone.MyWidget.MySlipSwitch;
+import com.planboxone.MyWidget.SlipSwitch;
 import com.planboxone.R;
 
 
@@ -19,7 +18,7 @@ public class SetPsdActivity extends BaseActivity {
     RelativeLayout rl_modify;
     Boolean isHas;//是否有密码
     Boolean isOpen;//是否打开密码开关
-    MySlipSwitch btn_switch;
+    SlipSwitch btn_switch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class SetPsdActivity extends BaseActivity {
         setContentView(R.layout.activity_setpsd);
         getData();
         switchBtn();
-        btn_switch.setOnSwitchListener(new MySlipSwitch.OnSwitchListener() {
+        btn_switch.setOnSwitchListener(new SlipSwitch.OnSwitchListener() {
 
             @Override
             public void onSwitched(boolean isSwitchOn) {
@@ -81,7 +80,7 @@ public class SetPsdActivity extends BaseActivity {
         isOpen = sharedPreferences.getBoolean("isOpen", false);
 
 
-        btn_switch = (MySlipSwitch) findViewById(R.id.btn_switch);
+        btn_switch = (SlipSwitch) findViewById(R.id.btn_switch);
         btn_switch.setImageResource(R.drawable.bkg_switch, R.drawable.bkg_switch, R.drawable.btn_slip);
     }
 

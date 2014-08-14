@@ -47,12 +47,13 @@ public class ContentFragment extends Fragment {
     private int newsType = 0;
 
     public ContentFragment() {
-        super();
     }
 
-    public ContentFragment(int newsType) {
+    public void setType(int newsType) {
         this.newsType = newsType;
+
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
