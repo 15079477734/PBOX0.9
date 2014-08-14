@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.planboxone.MyActivity.BaseActivity;
@@ -19,6 +21,7 @@ public class SetPsdActivity extends BaseActivity {
     Boolean isHas;//是否有密码
     Boolean isOpen;//是否打开密码开关
     SlipSwitch btn_switch;
+    Switch aSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,8 @@ public class SetPsdActivity extends BaseActivity {
         setContentView(R.layout.activity_setpsd);
         getData();
         switchBtn();
+
+
         btn_switch.setOnSwitchListener(new SlipSwitch.OnSwitchListener() {
 
             @Override
@@ -59,6 +64,7 @@ public class SetPsdActivity extends BaseActivity {
                     mIntent.setClass(SetPsdActivity.this, ModifyPassActivity.class);
                     startActivity(mIntent);
                 }
+
             }
         });
 
@@ -82,11 +88,27 @@ public class SetPsdActivity extends BaseActivity {
 
         btn_switch = (SlipSwitch) findViewById(R.id.btn_switch);
         btn_switch.setImageResource(R.drawable.switch_open, R.drawable.switch_close, R.drawable.switch_button);
+        aSwitch = (Switch) findViewById(R.id.switch_psd);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    Intent mIntent = new Intent();
+                    mIntent.setClass(SetPsdActivity.this, OpenPsdActivity.class);
+                    startActivity(mIntent);
+                } else {
+                    Intent mIntent = new Intent();
+                    mIntent.setClass(SetPsdActivity.this, ClosePsdActivity.class);
+                    startActivity(mIntent);
+                    //Toast.makeText(MainActivity.this, "开关已经关闭", 300).show();
+                }//开关关闭，本地密码关闭
+            }
+        });
+
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         // TODO Auto-generated method stub
         SetPsdActivity.this.finish();
         return super.onKeyDown(keyCode, event);

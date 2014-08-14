@@ -23,24 +23,14 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp" />
 
-        <com.planboxone.MyWidget.SlipSwitch
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/btn_switch"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true" />
 
         <Switch
+            android:id="@+id/switch_psd"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/toggle_btn"
             android:thumb="@drawable/switch_button"
             android:track="@drawable/toggle_btn" />
 
-        <Switch
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/toggle_btn" />
 
     </RelativeLayout>
 
