@@ -81,7 +81,7 @@ public class SetPsdActivity extends BaseActivity {
 
 
         btn_switch = (SlipSwitch) findViewById(R.id.btn_switch);
-        btn_switch.setImageResource(R.drawable.bkg_switch, R.drawable.bkg_switch, R.drawable.btn_slip);
+        btn_switch.setImageResource(R.drawable.switch_open, R.drawable.switch_close, R.drawable.switch_button);
     }
 
     @Override

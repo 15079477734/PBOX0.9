@@ -96,7 +96,8 @@ public class TabPlanActivity extends FragmentActivity {
         }
 
         public Fragment getItem(int position) {
-            ContentFragment fragment = new ContentFragment(position);
+            ContentFragment fragment = new ContentFragment();
+            fragment.setType(position);
             return fragment;
         }
     }
