@@ -320,11 +320,12 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/VRESION"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right|center"
                     android:paddingRight="10.0dip"
-                    android:text="1.0"
+                    android:text="2.0"
                     android:textColor="@color/orange"
                     android:textSize="14.0dip" />
 

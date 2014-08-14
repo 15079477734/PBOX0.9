@@ -3,6 +3,7 @@ package com.planboxone.Test;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,10 +18,12 @@ import com.planboxone.R;
 
 
 public class SetPsdActivity extends BaseActivity {
+    final static private String TAG = "SetPsdActivity";
     RelativeLayout rl_modify;
     Boolean isHas;//是否有密码
     Boolean isOpen;//是否打开密码开关
     Switch aSwitch;
+    boolean isSwitchOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,26 +31,29 @@ public class SetPsdActivity extends BaseActivity {
         setContentView(R.layout.activity_setpsd);
         getData();
         initView();
-    }
 
-    @Override
-    protected void onResume() {
-        setSwitch();
-        super.onResume();
     }
 
     private void initView() {
         aSwitch = (Switch) findViewById(R.id.switch_psd);
         rl_modify = (RelativeLayout) findViewById(R.id.rl_modify_pass);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    startActivity(new Intent(SetPsdActivity.this, OpenPsdActivity.class));
-                } else {
-                    startActivity(new Intent(SetPsdActivity.this, ClosePsdActivity.class));
+                if (isSwitchOn) {
+                    if (isChecked) {
+                        startActivity(new Intent(SetPsdActivity.this, OpenPsdActivity.class));
+                    } else {
+                        startActivity(new Intent(SetPsdActivity.this, ClosePsdActivity.class));
+                    }
                 }
+                Log.e(TAG, "isCheck  =  " + String.valueOf(isChecked));
+
+
+                Log.e(TAG, "isSwitchOn   =  " + String.valueOf(isChecked));
             }
+
         });
 
 
@@ -63,6 +69,8 @@ public class SetPsdActivity extends BaseActivity {
 
             }
         });
+        setSwitch();
+        isSwitchOn = true;
     }
 
     private void setSwitch() {

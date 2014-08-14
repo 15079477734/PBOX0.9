@@ -1,6 +1,5 @@
 package com.planboxone.Test;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 import com.planboxone.MyActivity.BaseActivity;
 import com.planboxone.MyActivity.MainActivity;
 import com.planboxone.R;
+
 
 public class ClosePsdActivity extends BaseActivity {
     EditText et_check_psd;
@@ -50,9 +50,7 @@ public class ClosePsdActivity extends BaseActivity {
             editor.putBoolean("isHas", false);
             editor.putBoolean("isOpen", false);
             editor.commit();
-            Intent mIntent = new Intent();
-            mIntent.setClass(ClosePsdActivity.this, MainActivity.class);
-            startActivity(mIntent);
+
             ClosePsdActivity.this.finish();
         }//密码正确，取消本地密码
         else {

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.planboxone.R;
 import com.planboxone.Test.SetPsdActivity;
@@ -19,7 +20,7 @@ public class SettingActivity extends BaseActivity {
 
 
         setContentView(R.layout.activity_my_setting);
-        ((LinearLayout) findViewById(R.id.lv_passward)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_passward)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingActivity.this, SetPsdActivity.class);
@@ -27,38 +28,38 @@ public class SettingActivity extends BaseActivity {
                 SettingActivity.this.startActivity(intent);
             }
         });
-        ((LinearLayout) findViewById(R.id.lv_about_us)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_about_us)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SettingActivity.this, AboutUsActivity.class);
                 SettingActivity.this.startActivity(intent);
             }
         });
-        ((LinearLayout) findViewById(R.id.lv_reminder)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_reminder)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        ((LinearLayout) findViewById(R.id.lv_net)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_net)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        ((LinearLayout) findViewById(R.id.lv_backup)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_backup)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        ((LinearLayout) findViewById(R.id.lv_update)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_update)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Toast.makeText(SettingActivity.this, "你使用的版本已是最新 ", Toast.LENGTH_SHORT).show();
             }
         });
-        ((LinearLayout) findViewById(R.id.lv_share)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_share)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent localIntent1 = new Intent("android.intent.action.SEND");
@@ -68,7 +69,7 @@ public class SettingActivity extends BaseActivity {
                 startActivity(Intent.createChooser(localIntent1, "分享给好友"));
             }
         });
-        ((LinearLayout) findViewById(R.id.lv_feedback)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.lv_feedback)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent localIntent2 = new Intent("android.intent.action.SENDTO");
