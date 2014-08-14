@@ -21,9 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.library.util.Calculator;
 import com.library.util.DatabaseManage;
-import com.library.util.DaysRange;
-import com.library.util.GetDate;
 import com.library.util.MemoryCache;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
@@ -176,7 +175,7 @@ public class ContentFragment extends Fragment {
             else if (str.equals("100"))
                 m.put("type", "5");
             else {
-                int a = DaysRange.calculate(m.get("date"));
+                int a = Calculator.calculate(m.get("date"));
                 if (a > 20)
                     m.put("type", "4");
                 else if (a > 10)
@@ -247,7 +246,7 @@ public class ContentFragment extends Fragment {
             }
             String dueTime = mData.get(position).get("date");
             String title = mData.get(position).get("title");
-            int day = DaysRange.calculate(dueTime);
+            int day = Calculator.calculate(dueTime);
 
             holder.progress.setText(mData.get(position).get("progress") + "%");
             holder.due.setText(dueTime);
